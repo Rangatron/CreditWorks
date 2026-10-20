@@ -1,0 +1,52 @@
+﻿@using CreditWorks.Models;
+@model IEnumerable<WeightCategories>
+
+@{
+    ViewData["Title"] = "Weight Categories";
+    Layout = @Layout;
+    WeightCategories create = new WeightCategories();
+}
+
+@Html.Raw(TempData["msg"])
+
+<style>
+    img {
+        max-width: 50px;
+    }
+    td, th {
+        padding: 5px;
+    }
+</style>
+
+<div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Start Weight</th>
+            <th>End Weight</th>
+            <th>Icon</th>
+            <th></th>
+        </tr>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.StartWeight</td>
+                <td>@category.EndWeight</td>
+                <td><img src=@("Content/Img" + @category.Icon) /></td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = category.Id }) <br /> <a asp-action="Delete" asp-route-id="@category.Id">Delete</a></td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div id="add">
+    <form action="WeightCategory/Create" method="post">
+        <label>Name<input asp-for="@create.Name" name="Name" required /></label>
+        <label>Start Weight<input asp-for="@create.StartWeight" name="StartWeight" required /></label>
+        <label>End Weight<input asp-for="@create.EndWeight" name="EndWeight" /></label>
+        <label>Icon<input asp-for="@create.Icon" name="Icon" /></label>
+        
+        <input type="submit" value="Add new category" />
+    </form>
+</div>

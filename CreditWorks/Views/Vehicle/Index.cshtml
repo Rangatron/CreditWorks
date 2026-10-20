@@ -1,0 +1,52 @@
+﻿@using CreditWorks.Models;
+@model IEnumerable<VehicleViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = @Layout;
+    Vehicle create = new Vehicle();
+}
+
+@Html.Raw(TempData["msg"])
+
+<style>
+    img {
+        max-width: 50px;
+    }
+    td, th {
+        padding: 5px;
+    }
+</style>
+
+<div>
+    <table>
+        <tr>
+            <th>@Html.ActionLink("Owner", "Index", new { sort = "OwnerName", lastDown = TempData["LastDownSort"] })</th>
+            <th>@Html.ActionLink("Manufacturer", "Index", new { sort = "ManufacturerId", lastDown = TempData["LastDownSort"] })</th>
+            <th>@Html.ActionLink("Manufacture Year", "Index", new { sort = "ManufactureYear", lastDown = TempData["LastDownSort"] })</th>
+            <th>@Html.ActionLink("Weight", "Index", new { sort = "Weight", lastDown = TempData["LastDownSort"] })</th>
+            <th>@Html.ActionLink("Weight Category", "Index", new { sort = "WeightCategory", lastDown = TempData["LastDownSort"] })</th>
+        </tr>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.Vehicle.OwnerName</td>
+                <td>@vehicle.Manufacturer.Name</td>
+                <td>@vehicle.Vehicle.ManufactureYear</td>
+                <td>@vehicle.Vehicle.Weight</td>
+                <td>@vehicle.WeightCategory.Name <img src=@("Content/Img" + vehicle.WeightCategory.Icon) /></td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div id="add">
+    <form action="Vehicle/Create" method="post">
+        <label>Owner's Name<input asp-for="@create.OwnerName" name="OwnerName" required/></label>
+        <label>Manufacturer</label>
+        @Html.DropDownList("ManufacturerId", new SelectList(Model.First().ManufacturerList.Select(x => new { Value = x.Id, Text = x.Name }), "Value", "Text"))
+        <label>Year of Manufacture<input asp-for="@create.ManufactureYear" name="ManufactureYear" min="1885" required /></label>
+        <label>Weight<input asp-for="@create.Weight" name="Weight" min="1" required /></label>
+        <input type="submit" value="Add new vehicle" />
+    </form>
+</div>

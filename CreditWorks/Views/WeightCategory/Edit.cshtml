@@ -1,0 +1,22 @@
+﻿@using CreditWorks.Models;
+@model WeightCategories
+
+@{
+    ViewData["Title"] = "Edit Category";
+    Layout = @Layout;
+}
+
+@Html.Raw(TempData["msg"])
+
+<div>
+     <form action="Update" method="post">
+        <ul>
+            <li><label>Name: <input asp-for="Name" required/></label></li>
+            <li><label>Start Weight: <input asp-for="StartWeight" min="0" required /></label></li>
+            <li><label>End Weight: <input asp-for="EndWeight" min="0"/></label></li>
+            <li><label>Icon: <input asp-for="Icon" required/></label></li>
+            <li><input type="submit" value="Update category" /></li>
+        </ul>
+        <input asp-for="Id" type="hidden"/>
+     </form>
+</div>
